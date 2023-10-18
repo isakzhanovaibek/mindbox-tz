@@ -17,7 +17,7 @@ resource "aws_iam_role" "eks_cluster" {
 POLICY
 }
 resource "aws_iam_role_policy_attachment" "amazon_eks_cluster_policy" {
-  
+
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
 
   role = aws_iam_role.eks_cluster.name
@@ -45,7 +45,7 @@ resource "aws_eks_cluster" "eks" {
     ]
   }
 
-  
+
   depends_on = [
     aws_iam_role_policy_attachment.amazon_eks_cluster_policy
   ]
@@ -74,14 +74,14 @@ POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "amazon_eks_worker_node_policy_general" {
- 
+
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
 
   role = aws_iam_role.nodes_general.name
 }
 
 resource "aws_iam_role_policy_attachment" "amazon_eks_cni_policy_general" {
-  
+
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
 
   role = aws_iam_role.nodes_general.name
@@ -102,16 +102,16 @@ resource "aws_eks_node_group" "nodes_general" {
   node_role_arn = aws_iam_role.nodes_general.arn
 
   subnet_ids = [
-      aws_subnet.private-eu-central-1a.id,
-      aws_subnet.private-eu-central-1b.id,
-      aws_subnet.private-eu-central-1c.id,
-      aws_subnet.public-eu-central-1a.id,
-      aws_subnet.public-eu-central-1b.id,
-      aws_subnet.public-eu-central-1c.id
-    ]
+    aws_subnet.private-eu-central-1a.id,
+    aws_subnet.private-eu-central-1b.id,
+    aws_subnet.private-eu-central-1c.id,
+    aws_subnet.public-eu-central-1a.id,
+    aws_subnet.public-eu-central-1b.id,
+    aws_subnet.public-eu-central-1c.id
+  ]
 
   scaling_config {
-    
+    # create 5 nodes in 3 availability zones 
     desired_size = 5
 
     max_size = 5
